@@ -2,11 +2,13 @@
 
 Starting boilerplate of [Strapi](https://strapi.io/) application
 
+[![CI Pipeline](https://github.com/subbotaMan/hexlet-ci-app/actions/workflows/workflows.yml/badge.svg)](https://github.com/subbotaMan/hexlet-ci-app/actions/workflows/workflows.yml)
+
 ## System requirements
 
-* NodeJS >= 18
-* NPM >= 6.x
-* Make
+- NodeJS >= 18
+- NPM >= 6.x
+- Make
 
 ## Using
 
