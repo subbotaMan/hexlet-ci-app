@@ -1,43 +1,38 @@
-# # file: .github/workflows/show-directory.yml
-# name: workflows
-# # on – определяет события, которые запускают воркфлоу
-# on: push
-# jobs:
-#   # build – произвольно выбранное имя задания
-#   # их может быть больше одного
-#   build:
-#     # операционная система для работы воркфлоу
-#     runs-on: ubuntu-latest
-#     steps: # список шагов, которые надо выполнить
-#       # экшен — выполняет какую-то задачу
-#       # checkout — клонирует репозиторий
-#       - uses: actions/checkout@v4
-#       # run – произвольная bash-команда
-#       # ls -la выведет содержимое текущего репозитория
-#       - name: Setup environment
-#       run: make setup
+# file: .github/workflows/show-directory.yml
+# on – определяет события, которые запускают воркфлоу
+# build – произвольно выбранное имя задания
+# их может быть больше одного
+# операционная система для работы воркфлоу
+# список шагов, которые надо выполнить
+# экшен — выполняет какую-то задачу
+# checkout — клонирует репозиторий
+# run – произвольная bash-команда
 
-#       - name: Run tests
-#       run: make test
+name: Node CI
 
-#       - name: Run linter
-#       run: make lint
+on:
+  - push
+  - pull_request
 
-name: CI Pipeline
-on: push
+env:
+  CI: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup environment
-        run: make setup
-
-      - name: Run tests
-        run: make test
-
-      - name: Run linter
-        run: make lint
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: make install
+      - run: make lint
+      - run: make test
+      - uses: hexlet-components/hello-from-hexlet-action@release
